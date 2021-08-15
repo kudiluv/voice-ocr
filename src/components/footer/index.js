@@ -1,25 +1,25 @@
 import React, {useState} from 'react';
 import {View, StyleSheet,Image} from 'react-native';
+import SvgMicrophone from '../../svg-components/microphone';
+import SvgRecords from '../../svg-components/SvgRecords';
 import FooterItem from './footerItem';
-import Microphone from './img/microphone.png';
-import { getCurrentRoute } from '../navigation/root-navigation';
 
-const Footer = (props) => {
+const Footer = () => {
     const [activeLink,setActiveLink] = useState('Recorder');
     const createItems = () => {
         const items = [{
             link:'Recorder',
-            img: Microphone
+            img: SvgMicrophone
         },{
             link:'Records',
-            img: Microphone
+            img: SvgRecords
         },
         ];
         return items.map((item)=>{
             return (
                 <FooterItem key={Date.now.toString()+item.link} link={item.link} setActiveLink={setActiveLink}
                     active={activeLink==item.link?true:false}>
-                    <Image source={item.img}/>
+                    {(activeLink === item.link)? item.img({active:true}): item.img({})}
                 </FooterItem>
             )
         })
@@ -33,7 +33,7 @@ const Footer = (props) => {
 const styles = StyleSheet.create({
     footer: {
         height: 50,
-        backgroundColor: '#2c2d2e',
+        backgroundColor: '#000000',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',

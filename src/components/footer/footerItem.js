@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableNativeFeedback, StyleSheet} from 'react-native';
-import { navigate }  from '../navigation/root-navigation' ;
+import { navigate }  from '../../navigation/root-navigation' ;
 
 const FooterItem = (props) => {
     const goTo = () => {

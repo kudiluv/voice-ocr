@@ -1,11 +1,12 @@
 export const statusRecord = {
     INIT: 'INIT',
     RECORDING: 'RECORDING',
-    TICK: 'TICK',
-    STOPED: 'STOPED',
+    STOPPED: 'STOPPED',
 }
-export const typeControllerButton = {
-    PLAY : 'PLAY',
-    STOP : 'STOP',
-    FINISH : 'FINISH'
+export const actionRecord = {
+    START: 'START',
+    STOP: 'STOP',
+    RESET: 'RESET',
+    CONTINUE: 'CONTINUE',
+    TIME_TICK: 'TIME_TICK'
 }
