@@ -1,12 +1,9 @@
 import React from "react";
 import {StyleSheet, Text, TouchableNativeFeedback, View} from "react-native";
-import {bindActionCreators} from "redux";
-import {actionReset} from "../../../redux/actions/recorderActions";
-import {connect} from "react-redux";
 
 const ControlButton = (props) => {
     return <View style={styles.wrapper}>
-        <TouchableNativeFeedback onPress={props.onReset}>
+        <TouchableNativeFeedback onPress={async () => {await props.onPress()}}>
             <View>
                 <Text style={styles.text}>{props.children}</Text>
             </View>
@@ -27,16 +24,4 @@ const styles = StyleSheet.create({
     }
 })
 
-function mapStateToProps(state) {
-    return {
-        status: state.recorder.status
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        onReset: bindActionCreators(actionReset, dispatch)
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ControlButton)
+export default ControlButton

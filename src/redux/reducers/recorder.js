@@ -25,7 +25,7 @@ export default function (state = initialState, action) {
         case actionRecord.TIME_TICK:
             return {
                 ...state,
-                time: state.time + action.time
+                time: action.time
             }
         default:
             return state

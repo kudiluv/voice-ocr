@@ -1,19 +1,20 @@
 import {StyleSheet, TouchableNativeFeedback, View} from "react-native";
 import React from "react";
-import {bindActionCreators} from "redux";
-import {actionStart, actionStop} from "../../../redux/actions/recorderActions";
 import {connect} from "react-redux";
 import {statusRecord} from "../../../enums";
 import SvgPause from "../../../svg-components/SvgPause";
 
 const MainButton = (props) => {
 
-    const toggleRecorder = () => {
-        if (props.status === statusRecord.INIT || props.status === statusRecord.STOPPED) {
-            props.onStart();
+    const toggleRecorder = async () => {
+        if (props.status === statusRecord.INIT) {
+            await props.recorder.start();
         }
         if (props.status === statusRecord.RECORDING) {
-            props.onStop();
+            await props.recorder.stop();
+        }
+        if (props.status === statusRecord.STOPPED) {
+            props.recorder.continue()
         }
     }
 
@@ -59,11 +60,4 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        onStart: bindActionCreators(actionStart, dispatch),
-        onStop: bindActionCreators(actionStop, dispatch)
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainButton)
+export default connect(mapStateToProps)(MainButton)

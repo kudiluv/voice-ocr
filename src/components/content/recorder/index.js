@@ -2,27 +2,30 @@ import React, {useRef, useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {actionTick} from "../../../redux/actions/recorderActions";
+import {actionReset, actionStart, actionStop, actionTick} from "../../../redux/actions/recorderActions";
 import MainButton from "./MainButton";
 import {statusRecord} from "../../../enums";
 import Timer from "./Timer";
 import ControlButton from "./ControlButton";
+import useRecorder from "./useRecorder";
 
 const Recorder = (props) => {
+    const recorder = useRecorder(props).current
     if (props.status === statusRecord.RECORDING) {
-        setTimeout(() => {
-            props.onTick(0.1);
-        }, 100)
+        setTimeout(async () => {
+            props.onTick(await recorder.getTime())
+        }, 500)
     }
+
     return (
         <View style={styles.recorder}>
             {props.status !== statusRecord.INIT ? <Timer time={props.time}/> : undefined}
             <View style={styles.controllers}>
                 {props.status === statusRecord.STOPPED ?
-                    <ControlButton>Удалить</ControlButton> : undefined}
-                <MainButton/>
+                    <ControlButton onPress={recorder.reset}>Удалить</ControlButton> : undefined}
+                <MainButton recorder={recorder}/>
                 {props.status === statusRecord.STOPPED ?
-                    <ControlButton>Сохранить</ControlButton> : undefined}
+                    <ControlButton onPress={recorder.save}>Сохранить</ControlButton> : undefined}
             </View>
         </View>
 
@@ -53,7 +56,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onTick: bindActionCreators(actionTick, dispatch)
+        onStart: bindActionCreators(actionStart, dispatch),
+        onStop: bindActionCreators(actionStop, dispatch),
+        onReset: bindActionCreators(actionReset, dispatch),
+        onTick: bindActionCreators(actionTick,dispatch)
     }
 }
 
